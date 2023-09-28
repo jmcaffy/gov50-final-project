@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
-description: "My final project"
+author: "James McAffrey"
+description: "Education Data"
 output:
   distill::distill_article:
     self_contained: false
@@ -11,4 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to public and private education systems in the U.S. and do a comparative analysis of the two data sets. One idea is to look at the overall success of students (SAT scores, graduation rates, etc) in order to establish a potential causal aspect of the success of each of these schools. Not exactly sure how specific I would get with the data set. Depends on what data I have available.
