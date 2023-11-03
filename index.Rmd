@@ -10,8 +10,6 @@ output:
 
 ## Project Data Proposal
 
-Does public distrust lead to more civic engagement? In this study, I plan to examine the levels of distrust in American government since the 1960s to see if higher distrust in government causes greater turnout rates during presidential/congressional elections. I hypothesize that voter turnout will resemble an upside bell curve, where as trust is highest in the government, there is a higher level of engagement, and when trust is lowest in the government, there is also a higher turnout. The low point of turn out will be when trust is in the middle. This is because I believe there is a probable correlation of government successes and failures with the level of trust in government. I believe that when people feel the government is doing a good job and they are excited about their elected official, they will want to go to the polls to be part of their success. On the flip side, I believe when a public official is doing an incredibly poor job, people are generally a bit outraged and are more likely to go to the polls. The lowest moments for voting numbers will be when a public official is doing a fine job, not doing anything special but also not outragously offending anybody. My hypothesis would be supported if the times of high distrust or high trust are the same times as higher voter turnout and if the times of median distrust/trust are the times of low voter turnout. My hypothesis would be disproven if there was a linear relation between trust and voter turnout. 
-
 ```{r}
 library(tidyverse)
 library(ggplot2)
@@ -28,28 +26,63 @@ view(covid)
 covid |> 
   count(subject)
 ```
-
+Creates a dataset avg_covid that gets the average of the approval and disaproval ratings for both Trump and Biden.
 ```{r}
 avg_covid <- covid |>
   group_by(party, subject) |>
   summarize(
     avg_approve = mean(approve, na.rm = TRUE),
     avg_disapprove = mean(disapprove, na.rm = TRUE))
-
+```
+Filters the data to only Trump's information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
+```{r}
 avg_t <- avg_covid |>
   filter(subject == "Trump")
 
+avg_t_support <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_approve)) +
+  geom_col() +
+  labs(
+    title = "Trump Approval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
+
+avg_t_disapprove <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_disapprove)) +
+  geom_col() +
+  labs(
+    title = "Trump Disapproval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
+
+avg_t_support
+avg_t_disapprove
+
+```
+
+Filters the data to only Biden's information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
+```{r}
 avg_b <- avg_covid |>
   filter(subject == "Biden")
 
-avg_b
-```
+avg_b_support <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_approve)) +
+  geom_col() +
+   labs(
+    title = "Biden Approval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
 
+avg_b_disapprove <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_disapprove)) +
+  geom_col() +
+  labs(
+    title = "Biden Disapproval",
+    y = "Percent of Population who Disapproves",
+    x = "Party"
+  )
 
-```{r}
-
-ggplot(data = avg_b, mapping = aes(x = party, y = avg_approve)) +
-  geom_col()
+avg_b_support
+avg_b_disapprove
 ```
 
 
