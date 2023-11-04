@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/hst_vote01.xlsx","data/W107_Aprl22/~$P W107 methodology.docx","data/W107_Aprl22/ATP W107 methodology.pdf","data/W107_Aprl22/ATP W107 questionnaire.pdf","data/W107_Aprl22/ATP W107 readme.txt","data/W107_Aprl22/ATP W107 topline.pdf","data/W107_Aprl22/ATP W107.sav","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/1976-2020-president.RData","data/codebook-us-president-1976-2020.md","data/covid-19-polls-master/covid_approval_polls_adjusted.csv","data/covid-19-polls-master/covid_approval_polls.csv","data/covid-19-polls-master/covid_approval_toplines.csv","data/covid-19-polls-master/covid_concern_polls_adjusted.csv","data/covid-19-polls-master/covid_concern_polls.csv","data/covid-19-polls-master/covid_concern_toplines.csv","data/covid-19-polls-master/README.md","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-4-2.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-5-2.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-7-2.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1518,8 +1518,110 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-data-proposal">Project Data Proposal</h2>
-<p>Does public distrust lead to more civic engagement? In this study, I plan to examine the levels of distrust in American government since the 1960s to see if higher distrust in government causes greater turnout rates during presidential/congressional elections. I hypothesize that voter turnout will resemble an upside bell curve, where as trust is highest in the government, there is a higher level of engagement, and when trust is lowest in the government, there is also a higher turnout. The low point of turn out will be when trust is in the middle. This is because I believe there is a probable correlation of government successes and failures with the level of trust in government. I believe that when people feel the government is doing a good job and they are excited about their elected official, they will want to go to the polls to be part of their success. On the flip side, I believe when a public official is doing an incredibly poor job, people are generally a bit outraged and are more likely to go to the polls. The lowest moments for voting numbers will be when a public official is doing a fine job, not doing anything special but also not outragously offending anybody. My hypothesis would be supported if the times of high distrust or high trust are the same times as higher voter turnout and if the times of median distrust/trust are the times of low voter turnout. My hypothesis would be disproven if there was a linear relation between trust and voter turnout.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='va'>covid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/covid-19-polls-master/covid_approval_polls.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://tibble.tidyverse.org/reference/view.html'>view</a></span><span class='op'>(</span><span class='va'>covid</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>covid</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>subject</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>  subject    n
+1   Biden 1641
+2   Trump 2226</code></pre>
+</div>
+<div style="page-break-after: always;"></div>
+<h2 id="step-1">Step 1</h2>
+Creates a dataset avg_covid that gets the average of the approval and disaproval ratings for both Trump and Biden.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_covid</span> <span class='op'>&lt;-</span> <span class='va'>covid</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>party</span>, <span class='va'>subject</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
+<span>    avg_approve <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>approve</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span>    avg_disapprove <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disapprove</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+##Step 2
+Filters the data to only Trump’s information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_t</span> <span class='op'>&lt;-</span> <span class='va'>avg_covid</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subject</span> <span class='op'>==</span> <span class='st'>"Trump"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_t_support</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_t</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>party</span>, y <span class='op'>=</span> <span class='va'>avg_approve</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Trump Approval"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population who Approves"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Party"</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_t_disapprove</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_t</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>party</span>, y <span class='op'>=</span> <span class='va'>avg_disapprove</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Trump Disapproval"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population who Approves"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Party"</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_t_support</span></span></code></pre>
+</div>
+<img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_t_disapprove</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-2.png" width="624" /></p>
+</div>
+##Step 3
+Filters the data to only Biden’s information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_b</span> <span class='op'>&lt;-</span> <span class='va'>avg_covid</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>subject</span> <span class='op'>==</span> <span class='st'>"Biden"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_b_support</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_b</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>party</span>, y <span class='op'>=</span> <span class='va'>avg_approve</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Biden Approval"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population who Approves"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Party"</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_b_disapprove</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_b</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>party</span>, y <span class='op'>=</span> <span class='va'>avg_disapprove</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Biden Disapproval"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population who Disapproves"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Party"</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_b_support</span></span></code></pre>
+</div>
+<img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_b_disapprove</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-7-2.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
