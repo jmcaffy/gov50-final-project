@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/1976-2020-president.RData","data/codebook-us-president-1976-2020.md","data/covid-19-polls-master/covid_approval_polls_adjusted.csv","data/covid-19-polls-master/covid_approval_polls.csv","data/covid-19-polls-master/covid_approval_toplines.csv","data/covid-19-polls-master/covid_concern_polls_adjusted.csv","data/covid-19-polls-master/covid_concern_polls.csv","data/covid-19-polls-master/covid_concern_toplines.csv","data/covid-19-polls-master/README.md","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-4-2.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-5-2.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-7-2.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/1976-2020-president.RData","data/codebook-us-president-1976-2020.md","data/covid-19-polls-master/covid_approval_polls_adjusted.csv","data/covid-19-polls-master/covid_approval_polls.csv","data/covid-19-polls-master/covid_approval_toplines.csv","data/covid-19-polls-master/covid_concern_polls_adjusted.csv","data/covid-19-polls-master/covid_concern_polls.csv","data/covid-19-polls-master/covid_concern_toplines.csv","data/covid-19-polls-master/README.md","data/president_approval_polls_historical.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-3-2.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-4-2.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-5-2.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-7-2.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1518,26 +1518,28 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-data-proposal">Project Data Proposal</h2>
+<p>In this data collection, I am attempting to compare President Trump’s approval rating with his approval ratings of how he handled the pandemic. I want to explore if there is a difference between how people view his handling of the covid-19 pandemic compared with his Presidency as a whole, including all policies. I’ve made some visualizations demonstrating how people view both Trump and Biden’s handling of the pandemic. Nearer to the end, I have been working on a preliminary chart that will map out President Trump’s approval ratings over his time in office. From here, I hope to make a similar graph demonstrating his approval rating of his pandemic handling, and see how those two graphs compare.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
 <span></span>
-<span></span>
 <span><span class='va'>covid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/covid-19-polls-master/covid_approval_polls.csv"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'><a href='https://tibble.tidyverse.org/reference/view.html'>view</a></span><span class='op'>(</span><span class='va'>covid</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>covid</span> <span class='op'>|&gt;</span> </span>
+<span><span class='va'>pres_approval</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/president_approval_polls_historical.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>##view(pres_approval)</span></span>
+<span></span>
+<span><span class='va'>covid</span> <span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>subject</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>  subject    n
 1   Biden 1641
 2   Trump 2226</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>##view(covid)</span></span></code></pre>
+</div>
 </div>
 <div style="page-break-after: always;"></div>
 <h2 id="step-1">Step 1</h2>
@@ -1548,8 +1550,22 @@ Creates a dataset avg_covid that gets the average of the approval and disaproval
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>party</span>, <span class='va'>subject</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
 <span>    avg_approve <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>approve</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
-<span>    avg_disapprove <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disapprove</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span>    avg_disapprove <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disapprove</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_covid</span></span></code></pre>
 </div>
+<pre><code># A tibble: 8 × 4
+# Groups:   party [4]
+  party subject avg_approve avg_disapprove
+  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+1 D     Biden          84.8           10.9
+2 D     Trump          12.7           84.1
+3 I     Biden          45.5           44.1
+4 I     Trump          36.6           54.5
+5 R     Biden          20.8           73.5
+6 R     Trump          82.1           15.2
+7 all   Biden          52.1           40.5
+8 all   Trump          42.2           53.4</code></pre>
 </div>
 ##Step 2
 Filters the data to only Trump’s information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
@@ -1572,19 +1588,15 @@ Filters the data to only Trump’s information. Then creates two graphs: avg_t_s
 <span>    title <span class='op'>=</span> <span class='st'>"Trump Disapproval"</span>,</span>
 <span>    y <span class='op'>=</span> <span class='st'>"Percent of Population who Approves"</span>,</span>
 <span>    x <span class='op'>=</span> <span class='st'>"Party"</span></span>
-<span>  <span class='op'>)</span></span></code></pre>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_t_support</span></span></code></pre>
 </div>
-</div>
-<div style="page-break-after: always;"></div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_t_support</span></span></code></pre>
-</div>
-<img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" />
+<img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" />
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_t_disapprove</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-5-2.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-2.png" width="624" /></p>
 </div>
 ##Step 3
 Filters the data to only Biden’s information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
@@ -1615,13 +1627,73 @@ Filters the data to only Biden’s information. Then creates two graphs: avg_b_s
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_b_support</span></span></code></pre>
 </div>
-<img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" />
+<img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" />
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_b_disapprove</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-7-2.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-2.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+Creates a variable t_approval_date that takes all of the polls in the dataset and groups them together to create an average of the ‘yes’ (approval) ratings for each day. So if there were 4 polls conducted on one day, this would take the average of those 4 polls and attach them to the day the polling ended for each of the polls.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>trump_approval</span> <span class='op'>&lt;-</span> <span class='va'>pres_approval</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>politician</span> <span class='op'>==</span> <span class='st'>"Donald Trump"</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class='va'>t_approval_mean</span> <span class='op'>&lt;-</span> <span class='va'>trump_approval</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>end_date</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    average_yes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>yes</span><span class='op'>)</span> </span>
+<span>      <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
+<span>    average_day_yes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>average_yes</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span>  </span>
+<span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_mean</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='va'>t_approval_mean</span><span class='op'>$</span><span class='va'>end_date</span>, format<span class='op'>=</span><span class='st'>"%m/%d/%Y"</span><span class='op'>)</span><span class='op'>)</span>,<span class='op'>]</span></span>
+<span></span>
+<span><span class='co'>##t_approval_date</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_date</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>observation <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>##t_approval_date</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>t_approval_date</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1,459 × 3
+   end_date average_day_yes observation
+   &lt;chr&gt;              &lt;dbl&gt;       &lt;int&gt;
+ 1 1/22/17             45.5           1
+ 2 1/23/17             45             2
+ 3 1/24/17             46.6           3
+ 4 1/25/17             44.4           4
+ 5 1/26/17             45.9           5
+ 6 1/27/17             44.6           6
+ 7 1/28/17             46.1           7
+ 8 1/29/17             48.6           8
+ 9 1/30/17             48.1           9
+10 1/31/17             46.9          10
+# ℹ 1,449 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>t_approval_date</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>observation</span>, y <span class='op'>=</span> <span class='va'>average_day_yes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Trump Approval from 1/22/17-10/18/19"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Average Approval Smoothed"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Numerical Order of Dates"</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
