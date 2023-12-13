@@ -65,7 +65,7 @@ smoothed_plot
 ```
 
 
-This polls shows a linear model of how much approval decreased as the number of days after the Covid-19 shutdown started. The results of the lm() calculation show that for each day that passed, the approval rating decreased by -0.006412. 
+This polls shows a linear model of how much approval decreased as the number of days after the Covid-19 shutdown started. The results of the lm() calculation show that for each day that passed, the approval rating decreased by -0.006412. This means there was a slight decrease in approval rating as the pandemic progressed and affected people's lives.
 ```{r}
 linear_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
   geom_point() +
@@ -85,7 +85,7 @@ linear
 
 
 
-
+My results show that there was a slight decrease in approval rating as the pandemic progressed. I believe that this does show support for my hypothesis. But I believe it is a limited analysis because there are many things that could effect a President’s popularity besides the Covid-19 pandemic. Additionally, when you look at the plot of the average approval rating, you see that approval goes down, then increases for a time then starts to decrease again. To improve this analysis, you would have to look more at what other things happened during this period of time to establish if there was something else causing Trump’s decrease of popularity. 
 
 
 
