@@ -8,7 +8,7 @@ date: "2023-12-13"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+#```{r}
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
@@ -30,13 +30,13 @@ pres_approval |>
 
 pres_approval
 
-``` 
+#```
 
 
 
 ## Step 1
 Creates a dataset avg_covid that gets the average of the approval and disaproval ratings for both Trump and Biden.
-```{r}
+#```{r}
 avg_covid <- covid |>
   group_by(party, subject) |>
   summarize(
@@ -44,11 +44,11 @@ avg_covid <- covid |>
     avg_disapprove = mean(disapprove, na.rm = TRUE))
 
 avg_covid
-```
+#```
 
 ##Step 2
 Filters the data to only Trump's information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
-```{r}
+#```{r}
 avg_t <- avg_covid |>
   filter(subject == "Trump")
 
@@ -66,7 +66,7 @@ avg_t_support
 
 ##Step 3
 Filters the data to only Biden's information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
-```{r}
+#```{r}
 avg_b <- avg_covid |>
   filter(subject == "Biden")
 
@@ -87,7 +87,7 @@ avg_b_disapprove <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_disapp
   )
 ```
 \newpage
-```{r}
+#```{r}
 avg_b_support
 avg_b_disapprove
 
@@ -109,7 +109,7 @@ avg_t_disapprove <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_disapp
 
 
 The average approval from President Trump's performance as president is 42.47%. The average approval of President Trump's handling of the covid-19 pandemic is 42.18%. The average treatment effect is 0.29
-```{r}
+#```{r}
 t_ATE_covid <- 42.47 - 42.18
 
 t_ATE_covid

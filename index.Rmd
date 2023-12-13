@@ -22,7 +22,8 @@ pres_approval <- read.csv("data/president_approval_polls_historical.csv")
 \newpage
 
 
-Calculates the average approval rating of President Trump's 4 years in office.
+The data source is a collection of approval polls conducted by various sources during Donald Trump’s presidency. The dependent variable is Trump’s approval rating which is measured for each day that a poll was conducted. If there were multiple polls that day, the average of them all was conducted and that average is considered the approval rating for that day.  The independent variable is the number of days following the shutdown in response to the Covid-19 pandemic.  
+
 ```{r}
 trump_approval <- pres_approval |>
   filter(politician == "Donald Trump")
@@ -35,11 +36,10 @@ t_approval_day_mean <- trump_approval |>
   summarize(
     average_day_yes = mean(average_yes)
   )
-
 ```
 
+Sorts the averages of each day in order of the earliest date to the latest date.
 ```{r}
-
 t_approval_date <- t_approval_day_mean[order(as.Date(t_approval_day_mean$end_date, format="%m/%d/%Y")),]
 
 t_approval_date <- t_approval_date |>
@@ -48,7 +48,11 @@ t_approval_date <- t_approval_date |>
 t_approval_date <- t_approval_date |> 
   filter(observation >= 1149) |>
   mutate(observation = 1:n()) 
+```
 
+
+This graph shows the average approval data from 3/15/20-1/19/21. Demonstrating what the dependent variable looks like based on the many polls that were conducted.
+```{r}
 smoothed_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
   geom_point() +
   geom_smooth() +
@@ -58,7 +62,11 @@ smoothed_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y
     x = "# of Days after Covid-19 Shutdown"
   )
 smoothed_plot
+```
 
+
+This polls shows a linear model of how much approval decreased as the number of days after the Covid-19 shutdown started. The results of the lm() calculation show that for each day that passed, the approval rating decreased by -0.006412. 
+```{r}
 linear_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
   geom_point() +
   geom_smooth(method = "lm") +
@@ -69,9 +77,9 @@ linear_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y =
   )
 
 linear_plot
-#linear <- lm(average_day_yes ~ observation, data = t_approval_date)
+linear <- lm(average_day_yes ~ observation, data = t_approval_date)
 
-#linear
+linear
 
 ```
 
