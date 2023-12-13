@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "James McAffrey"
-description: "Education Data"
+description: "Covid-19 Shutdown Impact on Trump's Approval"
 output:
   distill::distill_article:
     self_contained: false
@@ -9,100 +9,25 @@ output:
 
 ## Project Data Proposal
 
-In this data collection, I am attempting to compare President Trump's approval rating with his approval ratings of how he handled the pandemic. I want to explore if there is a difference between how people view his handling of the covid-19 pandemic compared with his Presidency as a whole, including all policies. I've made some visualizations demonstrating how people view both Trump and Biden's handling of the pandemic. Nearer to the end, I have been working on a preliminary chart that will map out President Trump's approval ratings over his time in office. From here, I hope to make a similar graph demonstrating his approval rating of his pandemic handling, and see how those two graphs compare. 
-
+In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.
+ 
 ```{r}
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
-covid <- read.csv("data/covid-19-polls-master/covid_approval_polls.csv")
-
 pres_approval <- read.csv("data/president_approval_polls_historical.csv")
 
-##view(pres_approval)
-
-covid |> 
-  count(subject)
-
-##view(covid)
 ```
 \newpage
-## Step 1
-Creates a dataset avg_covid that gets the average of the approval and disaproval ratings for both Trump and Biden.
-```{r}
-avg_covid <- covid |>
-  group_by(party, subject) |>
-  summarize(
-    avg_approve = mean(approve, na.rm = TRUE),
-    avg_disapprove = mean(disapprove, na.rm = TRUE))
-
-avg_covid
-```
-##Step 2
-Filters the data to only Trump's information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
-```{r}
-avg_t <- avg_covid |>
-  filter(subject == "Trump")
-
-avg_t_support <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_approve)) +
-  geom_col() +
-  labs(
-    title = "Trump Approval",
-    y = "Percent of Population who Approves",
-    x = "Party"
-  )
-
-avg_t_disapprove <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_disapprove)) +
-  geom_col() +
-  labs(
-    title = "Trump Disapproval",
-    y = "Percent of Population who Approves",
-    x = "Party"
-  )
-
-avg_t_support
-avg_t_disapprove
-
-```
-##Step 3
-Filters the data to only Biden's information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
-```{r}
-avg_b <- avg_covid |>
-  filter(subject == "Biden")
-
-avg_b_support <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_approve)) +
-  geom_col() +
-   labs(
-    title = "Biden Approval",
-    y = "Percent of Population who Approves",
-    x = "Party"
-  )
-
-avg_b_disapprove <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_disapprove)) +
-  geom_col() +
-  labs(
-    title = "Biden Disapproval",
-    y = "Percent of Population who Disapproves",
-    x = "Party"
-  )
-```
-\newpage
-```{r}
-avg_b_support
-avg_b_disapprove
-```
 
 
-
-Creates a variable t_approval_date that takes all of the polls in the dataset and groups them together to create an average of the 'yes' (approval) ratings for each day. So if there were 4 polls conducted on one day, this would take the average of those 4 polls and attach them to the day the polling ended for each of the polls. 
+Calculates the average approval rating of President Trump's 4 years in office.
 ```{r}
 trump_approval <- pres_approval |>
   filter(politician == "Donald Trump")
 
-
-
-t_approval_mean <- trump_approval |>
+t_approval_day_mean <- trump_approval |>
   group_by(end_date) |>
   mutate(
     average_yes = mean(yes) 
@@ -111,31 +36,45 @@ t_approval_mean <- trump_approval |>
     average_day_yes = mean(average_yes)
   )
 
-  
-t_approval_date <- t_approval_mean[order(as.Date(t_approval_mean$end_date, format="%m/%d/%Y")),]
-
-##t_approval_date
 ```
 
 ```{r}
+
+t_approval_date <- t_approval_day_mean[order(as.Date(t_approval_day_mean$end_date, format="%m/%d/%Y")),]
+
 t_approval_date <- t_approval_date |>
   mutate(observation = 1:n())
 
-##t_approval_date
-```
+t_approval_date <- t_approval_date |> 
+  filter(observation >= 1149) |>
+  mutate(observation = 1:n()) 
 
-
-```{r}
-t_approval_date
-
-ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
-  geom_smooth() + 
+smoothed_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
+  geom_point() +
+  geom_smooth() +
   labs(
-    title = "Trump Approval from 1/22/17-10/18/19",
-    y = "Average Approval Smoothed",
-    x = "Numerical Order of Dates"
+    title = "Trump Approval from 3/15/20-1/19/21",
+    y = "Average Approval",
+    x = "# of Days after Covid-19 Shutdown"
   )
+smoothed_plot
+
+linear_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Trump Approval from 3/15/20-1/19/21",
+    y = "Average Approval",
+    x = "# of Days after Covid-19 Shutdown"
+  )
+
+linear_plot
+#linear <- lm(average_day_yes ~ observation, data = t_approval_date)
+
+#linear
+
 ```
+
 
 
 

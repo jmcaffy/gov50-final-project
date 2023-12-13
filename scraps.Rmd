@@ -1,0 +1,125 @@
+---
+title: "Extra stuff"
+output: html_document
+date: "2023-12-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+
+anes <- read.csv("data/anes-2016.csv")
+
+party_reg_data_na <- anes |> select(V161019) 
+
+party_reg <- na.omit(party_reg_data_na)
+
+party_reg
+
+pres_approval_na <- anes |> select(V161082x)
+
+pres_approval <- na.omit(pres_approval)
+
+pres_approval |>
+  rename(rating = V161019)
+
+pres_approval
+
+``` 
+
+
+
+## Step 1
+Creates a dataset avg_covid that gets the average of the approval and disaproval ratings for both Trump and Biden.
+```{r}
+avg_covid <- covid |>
+  group_by(party, subject) |>
+  summarize(
+    avg_approve = mean(approve, na.rm = TRUE),
+    avg_disapprove = mean(disapprove, na.rm = TRUE))
+
+avg_covid
+```
+
+##Step 2
+Filters the data to only Trump's information. Then creates two graphs: avg_t_support and avg_t_disapprove. Each showing the average percent of the population who approves and disapproves for Trump sorted by party and total.
+```{r}
+avg_t <- avg_covid |>
+  filter(subject == "Trump")
+
+avg_t_support <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_approve)) +
+  geom_col() +
+  labs(
+    title = "Trump Approval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
+
+avg_t_support
+
+```
+
+##Step 3
+Filters the data to only Biden's information. Then creates two graphs: avg_b_support and avg_b_disapprove. Each showing the average percent of the population who approves and disapproves for Biden sorted by party and total.
+```{r}
+avg_b <- avg_covid |>
+  filter(subject == "Biden")
+
+avg_b_support <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_approve)) +
+  geom_col() +
+   labs(
+    title = "Biden Approval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
+
+avg_b_disapprove <- ggplot(data = avg_b, mapping = aes(x = party, y = avg_disapprove)) +
+  geom_col() +
+  labs(
+    title = "Biden Disapproval",
+    y = "Percent of Population who Disapproves",
+    x = "Party"
+  )
+```
+\newpage
+```{r}
+avg_b_support
+avg_b_disapprove
+
+
+
+
+
+avg_t_disapprove <- ggplot(data = avg_t, mapping = aes(x = party, y = avg_disapprove)) +
+  geom_col() +
+  labs(
+    title = "Trump Disapproval",
+    y = "Percent of Population who Approves",
+    x = "Party"
+  )
+
+
+```
+
+
+
+The average approval from President Trump's performance as president is 42.47%. The average approval of President Trump's handling of the covid-19 pandemic is 42.18%. The average treatment effect is 0.29
+```{r}
+t_ATE_covid <- 42.47 - 42.18
+
+t_ATE_covid
+
+```
+
+
+
+
+
+
+
+
