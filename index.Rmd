@@ -11,7 +11,7 @@ output:
 
 1) In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.
  
-```{r}
+```{r load-data}
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
@@ -27,9 +27,10 @@ pres_approval <- read.csv("data/president_approval_polls_historical.csv")
 The independent variable is the number of days following the Covid-19 shutdown on 03/15/20. The goal is to see how President Trump’s approval was affected as the pandemic lasted longer and longer. The idea is that as the number of days the pandemic lasted increased, you might see an effect on President Trump’s approval rating. 
  
 
-```{r}
+```{r create-average-approval-for-each-day}
 trump_approval <- pres_approval |>
-  filter(politician == "Donald Trump")
+  filter(
+    politician == "Donald Trump")
 
 t_approval_day_mean <- trump_approval |>
   group_by(end_date) |>
@@ -37,13 +38,13 @@ t_approval_day_mean <- trump_approval |>
     average_yes = mean(yes) 
       ) |>
   summarize(
-    average_day_yes = mean(average_yes)
-  )
+    average_day_yes = mean(average_yes))
 ```
 
 
-```{r}
-t_approval_date <- t_approval_day_mean[order(as.Date(t_approval_day_mean$end_date, format="%m/%d/%Y")),]
+```{r organize-polling-order-and-filter}
+t_approval_date <- t_approval_day_mean[order(as.Date(
+  t_approval_day_mean$end_date, format="%m/%d/%Y")),]
 
 t_approval_date <- t_approval_date |>
   mutate(observation = 1:n())
@@ -53,8 +54,11 @@ t_approval_date <- t_approval_date |>
   mutate(observation = 1:n()) 
 ```
 
-```{r}
-smoothed_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
+```{r create-smoothed-plot}
+smoothed_plot <- ggplot(data = t_approval_date, 
+                        mapping = aes(
+                          x = observation, 
+                          y = average_day_yes)) +
   geom_point() +
   geom_smooth() +
   labs(
@@ -62,24 +66,28 @@ smoothed_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y
     y = "Average Approval",
     x = "# of Days after Covid-19 Shutdown"
   )
+
 smoothed_plot
 ```
 This graph shows the smoothed average of President Trump’s approval rating from 3/15/20-1/19/21. This smoothed line is only based on the approval rating, and has no relation to the time. This demonstrates what the approval rating looks like independent of any other factor. 
 
-```{r}
+```{r calculate-lm}
 linear <- lm(average_day_yes ~ observation, data = t_approval_date)
 
-linear
+modelsummary::modelsummary(linear, gof_map = c("nobs"))
 ```
 
 3) The regression output shows that as the number of days after the pandemic shutdown happened increased, President Trump’s approval rating decreased by -0.006412. This shows that there is a small correlation between the time after the pandemic started and President Trump’s approval rating.
 
-```{r}
-linear_plot <- ggplot(data = t_approval_date, mapping = aes(x = observation, y = average_day_yes)) +
+```{r create-linear-regression-plot}
+linear_plot <- ggplot(data = t_approval_date, 
+                      mapping = aes(
+                        x = observation, 
+                        y = average_day_yes)) +
   geom_point() +
   geom_smooth(method = "lm") +
   labs(
-    title = "Trump Approval from 3/15/20-1/19/21",
+    title = "Trump Approval Linear Regression from 3/15/20-1/19/21",
     y = "Average Approval",
     x = "# of Days after Covid-19 Shutdown"
   )
