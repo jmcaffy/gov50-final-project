@@ -7,10 +7,11 @@ output:
     self_contained: false
 ---
 
-## Project Data Proposal
+## Introduction
 
-1) In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.
+In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.
  
+## Data Section 
 ```{r load-data}
 library(tidyverse)
 library(ggplot2)
@@ -21,8 +22,7 @@ pres_approval <- read.csv("data/president_approval_polls_historical.csv")
 ```
 \newpage
 
-
-2) The data source is a collection of approval polls conducted by various sources during Donald Trump’s presidency. The dependent variable is President Trump’s approval ratings. The goal is to see the effect on these approval ratings. Not all days had a poll conducted, while some days had multiple polls conducted. I based the dates on when the poll ended (end_date). Whenever there were multiple polls on a certain day, the average of them was calculated and considered the approval rating for that day. 
+The data source is a collection of approval polls conducted by various sources during Donald Trump’s presidency. The dependent variable is President Trump’s approval ratings. The goal is to see the effect on these approval ratings. Not all days had a poll conducted, while some days had multiple polls conducted. I based the dates on when the poll ended (end_date). Whenever there were multiple polls on a certain day, the average of them was calculated and considered the approval rating for that day. 
 
 The independent variable is the number of days following the Covid-19 shutdown on 03/15/20. The goal is to see how President Trump’s approval was affected as the pandemic lasted longer and longer. The idea is that as the number of days the pandemic lasted increased, you might see an effect on President Trump’s approval rating. 
  
@@ -71,13 +71,14 @@ smoothed_plot
 ```
 This graph shows the smoothed average of President Trump’s approval rating from 3/15/20-1/19/21. This smoothed line is only based on the approval rating, and has no relation to the time. This demonstrates what the approval rating looks like independent of any other factor. 
 
+## Results Section
 ```{r calculate-lm}
 linear <- lm(average_day_yes ~ observation, data = t_approval_date)
 
 modelsummary::modelsummary(linear, gof_map = c("nobs"))
 ```
 
-3) The regression output shows that as the number of days after the pandemic shutdown happened increased, President Trump’s approval rating decreased by -0.006412. This shows that there is a small correlation between the time after the pandemic started and President Trump’s approval rating.
+The regression output shows that as the number of days after the pandemic shutdown happened increased, President Trump’s approval rating decreased by -0.006412. This shows that there is a small correlation between the time after the pandemic started and President Trump’s approval rating.
 
 ```{r create-linear-regression-plot}
 linear_plot <- ggplot(data = t_approval_date, 
@@ -99,8 +100,9 @@ The plot demonstrates this too, by showing the linear regression visually. Again
 
 I believe that this regression is of slight significance because, although -0.006412 is very small number, it means that over the 311 days there was a total decrease of approximately 1.99 percent. This is a significant portion of the population to stop liking you when it comes to an election year. 
 
+## Conclusion
 
-4) My results show that there was a slight decrease in approval rating as the pandemic progressed, causing a total decrease of approximately 1.99%. I believe that this does show support for my hypothesis because it is such a significant decrease of approval that is big enough to make a difference in an election year.
+My results show that there was a slight decrease in approval rating as the pandemic progressed, causing a total decrease of approximately 1.99%. I believe that this does show support for my hypothesis because it is such a significant decrease of approval that is big enough to make a difference in an election year.
 
 But I believe it is a limited analysis because there are many things that could effect a President’s popularity besides the Covid-19 pandemic. Additionally, when you look at the plot of the average approval rating, you see that approval goes down, then increases for a time then starts to decrease again. I would improve this analysis by exploring the impact confounding factors on my analysis. Looking for different policies or events that could have contributed to President Trump’s decreasing popularity.
 

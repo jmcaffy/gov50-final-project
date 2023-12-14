@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/president_approval_polls_historical.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-3-2.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-4-2.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-5-2.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-7-2.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/president_approval_polls_historical.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/create-linear-regression-plot-1.png","index_files/figure-html5/create-smoothed-plot-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-3-2.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-4-2.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-5-2.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-7-2.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1473,6 +1473,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.24/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1517,10 +1519,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-data-proposal">Project Data Proposal</h2>
-<ol type="1">
-<li>In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.</li>
-</ol>
+<h2 id="introduction">Introduction</h2>
+<p>In this project, I am looking at the approval ratings of Donald Trump’s presidency following the beginning of the Covid-19 shutdown on March 15th, 2020. My hypothesis is that as the numbers of days after the shutdown increase, we will see a decline of Donald Trump’s popularity. This is interesting because it could show how his handling of the pandemic contributed to his loss of the Presidency in the election.</p>
+<h2 id="data-section">Data Section</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1531,14 +1532,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <div style="page-break-after: always;"></div>
-<ol start="2" type="1">
-<li>The data source is a collection of approval polls conducted by various sources during Donald Trump’s presidency. The dependent variable is President Trump’s approval ratings. The goal is to see the effect on these approval ratings. Not all days had a poll conducted, while some days had multiple polls conducted. I based the dates on when the poll ended (end_date). Whenever there were multiple polls on a certain day, the average of them was calculated and considered the approval rating for that day.</li>
-</ol>
+<p>The data source is a collection of approval polls conducted by various sources during Donald Trump’s presidency. The dependent variable is President Trump’s approval ratings. The goal is to see the effect on these approval ratings. Not all days had a poll conducted, while some days had multiple polls conducted. I based the dates on when the poll ended (end_date). Whenever there were multiple polls on a certain day, the average of them was calculated and considered the approval rating for that day.</p>
 <p>The independent variable is the number of days following the Covid-19 shutdown on 03/15/20. The goal is to see how President Trump’s approval was affected as the pandemic lasted longer and longer. The idea is that as the number of days the pandemic lasted increased, you might see an effect on President Trump’s approval rating.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>trump_approval</span> <span class='op'>&lt;-</span> <span class='va'>pres_approval</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>politician</span> <span class='op'>==</span> <span class='st'>"Donald Trump"</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
+<span>    <span class='va'>politician</span> <span class='op'>==</span> <span class='st'>"Donald Trump"</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>t_approval_day_mean</span> <span class='op'>&lt;-</span> <span class='va'>trump_approval</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>end_date</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
@@ -1546,41 +1546,28 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    average_yes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>yes</span><span class='op'>)</span> </span>
 <span>      <span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
-<span>    average_day_yes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>average_yes</span><span class='op'>)</span></span>
-<span>  <span class='op'>)</span></span></code></pre>
+<span>    average_day_yes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>average_yes</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_day_mean</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='va'>t_approval_day_mean</span><span class='op'>$</span><span class='va'>end_date</span>, format<span class='op'>=</span><span class='st'>"%m/%d/%Y"</span><span class='op'>)</span><span class='op'>)</span>,<span class='op'>]</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_day_mean</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span></span>
+<span>  <span class='va'>t_approval_day_mean</span><span class='op'>$</span><span class='va'>end_date</span>, format<span class='op'>=</span><span class='st'>"%m/%d/%Y"</span><span class='op'>)</span><span class='op'>)</span>,<span class='op'>]</span></span>
 <span></span>
 <span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_date</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>observation <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>t_approval_date</span> <span class='op'>&lt;-</span> <span class='va'>t_approval_date</span> <span class='op'>|&gt;</span> </span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>observation</span> <span class='op'>&gt;=</span> <span class='fl'>1149</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>observation <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> </span>
-<span></span>
-<span><span class='va'>t_approval_date</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>observation <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
 </div>
-<pre><code># A tibble: 311 × 3
-   end_date average_day_yes observation
-   &lt;chr&gt;              &lt;dbl&gt;       &lt;int&gt;
- 1 3/15/20             45.1           1
- 2 3/16/20             43.2           2
- 3 3/17/20             44.1           3
- 4 3/18/20             46.8           4
- 5 3/19/20             42.6           5
- 6 3/20/20             44.9           6
- 7 3/21/20             45.2           7
- 8 3/22/20             46.3           8
- 9 3/23/20             46.7           9
-10 3/24/20             45            10
-# ℹ 301 more rows</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>smoothed_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>t_approval_date</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>observation</span>, y <span class='op'>=</span> <span class='va'>average_day_yes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>smoothed_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>t_approval_date</span>, </span>
+<span>                        mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span></span>
+<span>                          x <span class='op'>=</span> <span class='va'>observation</span>, </span>
+<span>                          y <span class='op'>=</span> <span class='va'>average_day_yes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
@@ -1588,50 +1575,96 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    y <span class='op'>=</span> <span class='st'>"Average Approval"</span>,</span>
 <span>    x <span class='op'>=</span> <span class='st'>"# of Days after Covid-19 Shutdown"</span></span>
 <span>  <span class='op'>)</span></span>
+<span></span>
 <span><span class='va'>smoothed_plot</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/create-smoothed-plot-1.png" width="624" /></p>
 </div>
 <p>This graph shows the smoothed average of President Trump’s approval rating from 3/15/20-1/19/21. This smoothed line is only based on the approval rating, and has no relation to the time. This demonstrates what the approval rating looks like independent of any other factor.</p>
+<h2 id="results-section">Results Section</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>linear</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>average_day_yes</span> <span class='op'>~</span> <span class='va'>observation</span>, data <span class='op'>=</span> <span class='va'>t_approval_date</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>linear</span></span></code></pre>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>linear</span>, gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = average_day_yes ~ observation, data = t_approval_date)
-
-Coefficients:
-(Intercept)  observation  
-  43.842967    -0.006412  </code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+ (1)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+43.843
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(0.220)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+observation
+</td>
+<td style="text-align:center;">
+−0.006
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+(0.001)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+311
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<ol start="3" type="1">
-<li>The regression output shows that as the number of days after the pandemic shutdown happened increased, President Trump’s approval rating decreased by -0.006412. This shows that there is a small correlation between the time after the pandemic started and President Trump’s approval rating.</li>
-</ol>
+<p>The regression output shows that as the number of days after the pandemic shutdown happened increased, President Trump’s approval rating decreased by -0.006412. This shows that there is a small correlation between the time after the pandemic started and President Trump’s approval rating.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>linear_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>t_approval_date</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>observation</span>, y <span class='op'>=</span> <span class='va'>average_day_yes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>linear_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>t_approval_date</span>, </span>
+<span>                      mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span></span>
+<span>                        x <span class='op'>=</span> <span class='va'>observation</span>, </span>
+<span>                        y <span class='op'>=</span> <span class='va'>average_day_yes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"Trump Approval from 3/15/20-1/19/21"</span>,</span>
+<span>    title <span class='op'>=</span> <span class='st'>"Trump Approval Linear Regression from 3/15/20-1/19/21"</span>,</span>
 <span>    y <span class='op'>=</span> <span class='st'>"Average Approval"</span>,</span>
 <span>    x <span class='op'>=</span> <span class='st'>"# of Days after Covid-19 Shutdown"</span></span>
 <span>  <span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>linear_plot</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/create-linear-regression-plot-1.png" width="624" /></p>
 </div>
 <p>The plot demonstrates this too, by showing the linear regression visually. Again, demonstrating a correlation between the time after the pandemic started and President Trump’s approval rating. Additionally, it shows that despite the small increase of approval part of the way through the pandemic, shown in the previous plot, it did not balance out the rest of the decrease of President Trump’s approval rating.</p>
 <p>I believe that this regression is of slight significance because, although -0.006412 is very small number, it means that over the 311 days there was a total decrease of approximately 1.99 percent. This is a significant portion of the population to stop liking you when it comes to an election year.</p>
-<ol start="4" type="1">
-<li>My results show that there was a slight decrease in approval rating as the pandemic progressed, causing a total decrease of approximately 1.99%. I believe that this does show support for my hypothesis because it is such a significant decrease of approval that is big enough to make a difference in an election year.</li>
-</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>My results show that there was a slight decrease in approval rating as the pandemic progressed, causing a total decrease of approximately 1.99%. I believe that this does show support for my hypothesis because it is such a significant decrease of approval that is big enough to make a difference in an election year.</p>
 <p>But I believe it is a limited analysis because there are many things that could effect a President’s popularity besides the Covid-19 pandemic. Additionally, when you look at the plot of the average approval rating, you see that approval goes down, then increases for a time then starts to decrease again. I would improve this analysis by exploring the impact confounding factors on my analysis. Looking for different policies or events that could have contributed to President Trump’s decreasing popularity.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
